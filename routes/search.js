@@ -6,7 +6,8 @@ module.exports = function searchProducts () {
   return ({ query }, res, next) => {
     let criteria = query.q === 'undefined' ? '' : query.q || ''
     criteria = (criteria.length <= 200) ? criteria : criteria.substring(0, 200)
-    models.sequelize.query('SELECT * FROM Products WHERE ((name LIKE \'%' + criteria + '%\' OR description LIKE \'%' + criteria + '%\') AND deletedAt IS NULL) ORDER BY name')
+    models.sequelize.query('SELECT * FROM Products WHERE ((name LIKE \'%:criteria%\' OR description LIKE \'%:criteria%\') AND deletedAt IS NULL) ORDER BY name',
+    { replacements: { criteria: criteria }, type: sequelize.QueryTypes.SELECT })
       .then(([products, query]) => {
         const dataString = JSON.stringify(products)
         if (utils.notSolved(challenges.unionSqlInjectionChallenge)) {
