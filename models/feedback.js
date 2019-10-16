@@ -19,6 +19,12 @@ module.exports = (sequelize, { STRING, INTEGER }) => {
       type: INTEGER,
       allowNull: false,
       set (rating) {
+        if (rating <= 0) {
+          rating = 1;
+        }
+        if (rating > 5) {
+          rating = 5;
+        }
         this.setDataValue('rating', rating)
         if (utils.notSolved(challenges.zeroStarsChallenge) && rating === 0) {
           utils.solve(challenges.zeroStarsChallenge)
