@@ -15,8 +15,6 @@ module.exports = function productReviews () {
           { $inc: { likesCount: 1 } }
         ).then(
           result => {
-            // Artificial wait for timing attack challenge
-            setTimeout(function () {
               db.reviews.findOne({ _id: id }).then(review => {
                 var likedBy = review.likedBy
                 likedBy.push(user.data.email)
@@ -41,7 +39,6 @@ module.exports = function productReviews () {
               }, () => {
                 res.status(400).json({ error: 'Wrong Params' })
               })
-            }, 150)
           }, err => {
             res.status(500).json(err)
           })
