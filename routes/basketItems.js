@@ -24,7 +24,6 @@ module.exports.addBasketItem = function addBasketItem () {
     if (user && basketIds[0] && basketIds[0] !== 'undefined' && user.bid != basketIds[0]) { // eslint-disable-line eqeqeq
       res.status(401).send('{\'error\' : \'Invalid BasketId\'}')
     } else {
-      models.product.where()
       const basketItem = {
         ProductId: productIds[productIds.length - 1],
         BasketId: basketIds[basketIds.length - 1],
