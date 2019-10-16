@@ -19,6 +19,14 @@ module.exports = (sequelize, { STRING, INTEGER }) => {
       type: INTEGER,
       allowNull: false,
       set (rating) {
+        // Ideally I think we would want to throw a 400 but I'm not too familiar with this framework
+        // so defaulting the rating to 1 if it's less than 0 and for safe measure, defaulting to 5 if greater than 5
+        if (rating < 1) {
+          rating = 1;
+        }
+        if (rating > 5) {
+          rating = 5;
+        }
         this.setDataValue('rating', rating)
         if (utils.notSolved(challenges.zeroStarsChallenge) && rating === 0) {
           utils.solve(challenges.zeroStarsChallenge)
